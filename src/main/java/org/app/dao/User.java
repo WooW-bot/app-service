@@ -1,5 +1,6 @@
 package org.app.dao;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -11,7 +12,7 @@ import lombok.Data;
 @Data
 @TableName("app_user")
 public class User {
-    @TableId
+    @TableId(type = IdType.INPUT)
     private String userId;
     //用户名
     private String userName;

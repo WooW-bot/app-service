@@ -28,13 +28,19 @@ public class LoginServiceImpl implements LoginService {
     @Override
     public ResponseVO register(RegisterReq req) {
         if (RegisterTypeEnum.MOBILE.getCode() == req.getRegisterType()) {
-            ResponseVO<User> userByUserName = userService.getUserByMobile(req.getUserName());
-            if (userByUserName.isSuccess()) {
-                return ResponseVO.errorResponse(ErrorCode.REGISTER_ERROR);
+            if (req.getMobile() == null || req.getMobile().trim().isEmpty()) {
+                return ResponseVO.errorResponse(ErrorCode.REGISTER_ERROR.getCode(), "手机号不能空");
+            }
+            ResponseVO<User> userByMobile = userService.getUserByMobile(req.getUserName());
+            if (!userByMobile.isSuccess()) {
+                return userByMobile;
+            }
+            if (userByMobile.getData() != null) {
+                return ResponseVO.errorResponse(ErrorCode.MOBILE_IS_REGISTER);
             }
             ResponseVO<User> userResponseVO = userService.registerUser(req);
             return userResponseVO;
         }
-        return ResponseVO.successResponse();
+        return ResponseVO.errorResponse(ErrorCode.REGISTER_ERROR.getCode(), "不支持的注册方式");
     }
 }
