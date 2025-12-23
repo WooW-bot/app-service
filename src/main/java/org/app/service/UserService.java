@@ -10,5 +10,8 @@ import org.app.model.req.RegisterReq;
  */
 public interface UserService {
     ResponseVO getUserByMobile(String mobile);
+
+    ResponseVO getUserByUserName(String userName);
+
     ResponseVO registerUser(RegisterReq req);
 }

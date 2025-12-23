@@ -2,7 +2,6 @@ package org.app.service.impl;
 
 import cn.hutool.core.util.RandomUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.app.common.ResponseVO;
 import org.app.dao.User;
@@ -37,6 +36,14 @@ public class UserServiceImpl implements UserService {
     public ResponseVO getUserByMobile(String mobile) {
         LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(User::getMobile, mobile);
+        User user = userMapper.selectOne(wrapper);
+        return ResponseVO.successResponse(user);
+    }
+
+    @Override
+    public ResponseVO getUserByUserName(String userName) {
+        LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(User::getUserName, userName);
         User user = userMapper.selectOne(wrapper);
         return ResponseVO.successResponse(user);
     }
