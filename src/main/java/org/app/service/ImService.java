@@ -11,6 +11,7 @@ import org.app.model.resp.ImportUserResp;
 import org.app.utils.HttpRequestUtils;
 import org.app.utils.SigAPI;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @date 12/21/25
  */
 @Service
-public class ImService {
+public class ImService implements CommandLineRunner {
 
     @Autowired
     HttpRequestUtils httpRequestUtils;
@@ -93,5 +94,10 @@ public class ImService {
             e.printStackTrace();
         }
         return ResponseVO.errorResponse();
+    }
+
+    @Override
+    public void run(String... args) throws Exception {
+        sigAPI = new SigAPI(appConfig.getAppId(), appConfig.getPrivateKey());
     }
 }
