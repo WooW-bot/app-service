@@ -58,14 +58,22 @@ public class UserServiceImpl implements UserService {
         // 手动生成userId（使用雪花算法，避免数据库插入后IM导入失败的问题）
         user.setUserId(String.valueOf(System.currentTimeMillis()) + RandomUtil.randomNumbers(6));
 
-        // 加密密码
-        String encodedPassword = PasswordEncoder.encode(req.getPassword());
-        user.setPassword(encodedPassword);
+        // 加密密码（支持空密码）
+        if (req.getPassword() != null && !req.getPassword().trim().isEmpty()) {
+            String encodedPassword = PasswordEncoder.encode(req.getPassword());
+            user.setPassword(encodedPassword);
+        } else {
+            user.setPassword(null);  // 允许空密码
+        }
 
         if (RegisterTypeEnum.MOBILE.getCode() == req.getRegisterType()) {
             user.setCountryCode(req.getCountryCode());
             user.setMobile(req.getMobile());
-            user.setUserName("user_" + RandomUtil.randomNumbers(8));
+            // 自动生成用户名: user_手机号后4位_随机6位数
+            String mobileSuffix = req.getMobile().length() >= 4
+                    ? req.getMobile().substring(req.getMobile().length() - 4)
+                    : req.getMobile();
+            user.setUserName("user_" + mobileSuffix + "_" + RandomUtil.randomNumbers(6));
         } else if (RegisterTypeEnum.USERNAME.getCode() == req.getRegisterType()) {
             user.setUserName(req.getUserName());
         }

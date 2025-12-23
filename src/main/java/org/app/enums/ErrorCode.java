@@ -23,6 +23,12 @@ public enum ErrorCode implements ApplicationExceptionEnum {
     REDPACKET_IS_HOT(10009, "红包火爆请稍后再试"),
     TRYLOCREDPACKET_INTERRUPTED(10010, "抢红包时被中断了"),
     USERNAME_IS_REGISTER(10011, "该用户名已被注册"),
+
+    // 认证相关错误码
+    AUTH_PARAM_ERROR(10012, "认证参数错误，密码和验证码至少提供一个"),
+    PASSWORD_ERROR(10013, "密码错误"),
+    SMS_CODE_ERROR(10014, "验证码错误或已过期"),
+    SMS_SEND_TOO_FREQUENT(10015, "验证码发送过于频繁，请稍后再试"),
     ;
 
     private int code;
