@@ -8,13 +8,33 @@ import lombok.Data;
  */
 @Data
 public class LoginResp {
-    // im的token
-    private String imUserSign;
+    // ========== IM System Credentials ==========
+    /** IM系统的AppId */
+    private Integer appId;
 
-    // 自己的token
-    private String userSign;
-
+    /** 用户ID */
     private String userId;
 
-    private Integer appId;
+    /** IM系统的用户签名 (用于登录IM) */
+    private String imUserSign;
+
+    /** IM Token过期时间 (毫秒时间戳) */
+    private Long imTokenExpireTime;
+
+    // ========== App Authentication ==========
+    /** 应用系统的Token (用于API认证) */
+    private String userSign;
+
+    /** Token过期时间 (毫秒时间戳) */
+    private Long tokenExpireTime;
+
+    // ========== User Information ==========
+    /** 用户名 */
+    private String userName;
+
+    /** 手机号 */
+    private String mobile;
+
+    /** 国家码 */
+    private String countryCode;
 }

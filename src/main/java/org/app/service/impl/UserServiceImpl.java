@@ -33,9 +33,10 @@ public class UserServiceImpl implements UserService {
     ImService imService;
 
     @Override
-    public ResponseVO getUserByMobile(String mobile) {
+    public ResponseVO getUserByMobile(String countryCode, String mobile) {
         LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(User::getMobile, mobile);
+        wrapper.eq(User::getCountryCode, countryCode)
+                .eq(User::getMobile, mobile);
         User user = userMapper.selectOne(wrapper);
         return ResponseVO.successResponse(user);
     }
@@ -62,6 +63,7 @@ public class UserServiceImpl implements UserService {
         user.setPassword(encodedPassword);
 
         if (RegisterTypeEnum.MOBILE.getCode() == req.getRegisterType()) {
+            user.setCountryCode(req.getCountryCode());
             user.setMobile(req.getMobile());
             user.setUserName("user_" + RandomUtil.randomNumbers(8));
         } else if (RegisterTypeEnum.USERNAME.getCode() == req.getRegisterType()) {

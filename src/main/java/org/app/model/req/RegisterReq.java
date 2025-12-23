@@ -1,6 +1,7 @@
 package org.app.model.req;
 
 import lombok.Data;
+import org.app.utils.CountryCodeUtil;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -18,7 +19,12 @@ public class RegisterReq {
     @Pattern(regexp = "^[a-zA-Z0-9_]+$", message = "用户名只能包含字母、数字和下划线")
     private String userName;
 
-    @Pattern(regexp = "^1[3-9]\\d{9}$", message = "手机号格式不正确")
+    // 国家码 (默认: +86 中国)
+    @Pattern(regexp = "^\\+\\d{1,4}$", message = "国家码格式不正确")
+    private String countryCode = "+86";
+
+    // 手机号 (6-15位数字，支持国际格式)
+    @Pattern(regexp = "^\\d{6,15}$", message = "手机号必须是6-15位数字")
     private String mobile;
 
     @NotBlank(message = "密码不能为空")
@@ -30,4 +36,16 @@ public class RegisterReq {
     private Integer registerType;
 
     private String proto;
+
+    /**
+     * 设置国家码时自动标准化
+     * 支持: +86, 86, 0086 等格式
+     */
+    public void setCountryCode(String countryCode) {
+        if (countryCode != null && !countryCode.trim().isEmpty()) {
+            this.countryCode = CountryCodeUtil.normalize(countryCode);
+        } else {
+            this.countryCode = "+86"; // 默认中国
+        }
+    }
 }

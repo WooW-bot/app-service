@@ -9,7 +9,7 @@ import org.app.model.req.RegisterReq;
  * @date 12/21/25
  */
 public interface UserService {
-    ResponseVO getUserByMobile(String mobile);
+    ResponseVO getUserByMobile(String countryCode, String mobile);
 
     ResponseVO getUserByUserName(String userName);
 

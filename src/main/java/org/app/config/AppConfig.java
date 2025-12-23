@@ -27,4 +27,7 @@ public class AppConfig {
 
     private Integer jwtExpireTime;
 
+    /** IM Token有效期 (秒) */
+    private Integer imTokenExpiration = 500000; // 默认约5.8天
+
 }
